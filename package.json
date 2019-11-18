@@ -1,0 +1,20 @@
+{
+  "name": "pixijs_learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -p",
+    "watch": "webpack --watch"
+  },
+  "author": "sont3k",
+  "license": "ISC",
+  "dependencies": {
+    "pixi.js": "^5.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
