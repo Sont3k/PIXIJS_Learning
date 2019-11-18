@@ -13,7 +13,7 @@ const container = new PIXI.Container();
 app.stage.addChild(container);
 
 // Create a new texture
-const texture = PIXI.Texture.from('./assets/banan.png');
+const texture = PIXI.Texture.from('./assets/banana.png');
 
 // Create a 5x5 grid of bunnies
 for(let i = 0; i < 25; i++) {
