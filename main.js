@@ -59,3 +59,30 @@ function onAssetsLoaded() {
   }
   app.start();
 }
+
+// Combines both mouse click + touch tap
+app.stage.on('pointertap', onClick);
+
+function onClick() {
+  alienContainer.cacheAsBitmap = !alienContainer.cacheAsBitmap;
+
+  // feel free to play with what's below
+    // var sprite = new PIXI.Sprite(alienContainer.generateTexture());
+    // app.stage.addChild(sprite);
+    // sprite.x = Math.random() * 800;
+    // sprite.y = Math.random() * 600;
+}
+
+app.ticker.add(() => {
+  // let`s rotate the aliens a little bit
+  for (let i = 0; i < 100; i++) {
+    const alien = aliens[i];
+    alien.rotation += 0.1;
+  }
+
+  count += 0.01;
+
+  alienContainer.scale.x = Math.sin(count);
+  alienContainer.scale.y = Math.sin(count);
+  alienContainer.rotation += 0.01;
+});
