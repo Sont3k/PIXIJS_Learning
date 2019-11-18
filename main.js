@@ -12,7 +12,7 @@ document.body.appendChild(app.view);
 app.stop();
 
 // load resources
-app.loader.add("spritesheet", "./assets/monsters.json").load(onAssetsLoaded);
+app.loader.add("spritesheet", "./assets/spritesheets/monsters.json").load(onAssetsLoaded);
 
 // holder to store aliens
 const aliens = [];
