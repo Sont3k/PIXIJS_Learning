@@ -34,13 +34,13 @@ for (let i = 0; i < totalBananas; i++) {
   // create a random speed for the banana between 0 - 2
   banana.speed = 2 + Math.random() * 2;
 
-  // finally we push the bananaa into the bananaas array so it it can be easily accessed later
+  // finally we push the banana into the bananas array so it it can be easily accessed later
   bananas.push(banana);
 
   app.stage.addChild(banana);
 }
 
-// create a bounding box for the little dudes
+// create a bounding box for the little bananas
 const bananaBoundsPadding = 100;
 const bananaBounds = new PIXI.Rectangle(
   -bananaBoundsPadding,
