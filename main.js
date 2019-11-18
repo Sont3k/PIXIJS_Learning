@@ -12,7 +12,9 @@ document.body.appendChild(app.view);
 app.stop();
 
 // load resources
-app.loader.add("spritesheet", "./assets/spritesheets/monsters.json").load(onAssetsLoaded);
+app.loader
+  .add("spritesheet", "./assets/spritesheets/monsters.json")
+  .load(onAssetsLoaded);
 
 // holder to store aliens
 const aliens = [];
@@ -61,16 +63,16 @@ function onAssetsLoaded() {
 }
 
 // Combines both mouse click + touch tap
-app.stage.on('pointertap', onClick);
+app.stage.on("pointertap", onClick);
 
 function onClick() {
   alienContainer.cacheAsBitmap = !alienContainer.cacheAsBitmap;
 
   // feel free to play with what's below
-    // var sprite = new PIXI.Sprite(alienContainer.generateTexture());
-    // app.stage.addChild(sprite);
-    // sprite.x = Math.random() * 800;
-    // sprite.y = Math.random() * 600;
+  // var sprite = new PIXI.Sprite(alienContainer.generateTexture());
+  // app.stage.addChild(sprite);
+  // sprite.x = Math.random() * 800;
+  // sprite.y = Math.random() * 600;
 }
 
 app.ticker.add(() => {
