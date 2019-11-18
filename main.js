@@ -17,11 +17,11 @@ const texture = PIXI.Texture.from('./assets/banana.png');
 
 // Create a 5x5 grid of bunnies
 for(let i = 0; i < 25; i++) {
-    const banan = new PIXI.Sprite(texture);
-    banan.anchor.set(0.5);
-    banan.x = (i % 5) * 40;
-    banan.y = Math.floor(i / 5) * 40;
-    container.addChild(banan);
+    const banana = new PIXI.Sprite(texture);
+    banana.anchor.set(0.5);
+    banana.x = (i % 5) * 40;
+    banana.y = Math.floor(i / 5) * 40;
+    container.addChild(banana);
 }
 
 // Move container to the center
@@ -29,7 +29,7 @@ for(let i = 0; i < 25; i++) {
 container.x = app.screen.width / 2;
 container.y = app.screen.height / 2;
 
-// Center banan sprite in local container coordinates
+// Center banana sprite in local container coordinates
 container.pivot.x = container.width / 2;
 container.pivot.y = container.height / 2;
 
