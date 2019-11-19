@@ -59,7 +59,7 @@ for (let i = 0; i < totalSprites; i++) {
   sprites.addChild(banana);
 }
 
-// create a bounding box box for the little bananas
+// create a bounding box for the little bananas
 const bananaBoundsPadding = 100;
 const bananaBounds = new PIXI.Rectangle(
   -bananaBoundsPadding,
