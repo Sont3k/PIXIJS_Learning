@@ -9,82 +9,90 @@ const app = new PIXI.Application();
 // can then insert into the DOM.
 document.body.appendChild(app.view);
 
-app.stop();
+const sprites = new PIXI.ParticleContainer(10000, {
+  scale: true,
+  position: true,
+  rotation: true,
+  uvs: true,
+  alpha: true
+});
 
-// load resources
-app.loader
-  .add("spritesheet", "./assets/spritesheets/monsters.json")
-  .load(onAssetsLoaded);
+app.stage.addChild(sprites);
 
-// holder to store aliens
-const aliens = [];
-const alienFrames = [
-  "eggHead.png",
-  "flowerTop.png",
-  "helmlok.png",
-  "skully.png"
-];
+// create an array to store all the sprites
+const bananas = [];
 
-let count = 0;
+const totalSprites = app.renderer instanceof PIXI.Renderer ? 10000 : 100;
 
-// create an empty container
-const alienContainer = new PIXI.Container();
-alienContainer.x = 400;
-alienContainer.y = 300;
+for (let i = 0; i < totalSprites; i++) {
+  // create a new Sprite
+  const banana = PIXI.Sprite.from("./assets/banana_small.png");
 
-// make the stage interactive
-app.stage.interactive = true;
-app.stage.addChild(alienContainer);
+  banana.tint = Math.random() * 0xe8d4cd;
 
-function onAssetsLoaded() {
-  // add a bunch of aliens with textures from image paths
-  for (let i = 0; i < 100; i++) {
-    const frameName = alienFrames[i % 4];
+  // set the anchor point so the texture is centerd on the sprite
+  banana.anchor.set(0.5);
 
-    // create an alien using the frame name...
-    const alien = PIXI.Sprite.from(frameName);
-    alien.tint = Math.random() * 0xffffff;
+  // different bananas, different sizes
+  banana.scale.set(0.8 + Math.random() * 0.3);
 
-    /*
-     * fun fact for the day :)
-     * another way of doing the above would be
-     * var texture = PIXI.Texture.from(frameName);
-     * var alien = new PIXI.Sprite(texture);
-     */
+  // scatter them all
+  banana.x = Math.random() * app.screen.width;
+  banana.y = Math.random() * app.screen.height;
 
-    alien.x = Math.random() * 800 - 400;
-    alien.y = Math.random() * 600 - 300;
-    alien.anchor.x = 0.5;
-    alien.anchor.y = 0.5;
-    aliens.push(alien);
-    alienContainer.addChild(alien);
-  }
-  app.start();
+  banana.tint = Math.random() * 0x808080;
+
+  // create a random direction in radians
+  banana.direction = Math.random() * Math.PI * 2;
+
+  // this number will be used to modify the direction of the sprite over time
+  banana.turningSpeed = Math.random() - 0.8;
+
+  // create a random speed between 0 - 2, and these bananas are slooww
+  banana.speed = (2 + Math.random() * 2) * 0.2;
+
+  banana.offset = Math.random() * 100;
+
+  // finally we push the banana into the bananas array so it it can be easily accessed later
+  bananas.push(banana);
+
+  sprites.addChild(banana);
 }
 
-// Combines both mouse click + touch tap
-app.stage.on("pointertap", onClick);
+// create a bounding box box for the little bananas
+const bananaBoundsPadding = 100;
+const bananaBounds = new PIXI.Rectangle(
+  -bananaBoundsPadding,
+  -bananaBoundsPadding,
+  app.screen.width + bananaBoundsPadding * 2,
+  app.screen.height + bananaBoundsPadding * 2
+);
 
-function onClick() {
-  alienContainer.cacheAsBitmap = !alienContainer.cacheAsBitmap;
-
-  // feel free to play with what's below
-  // var sprite = new PIXI.Sprite(alienContainer.generateTexture());
-  // app.stage.addChild(sprite);
-  // sprite.x = Math.random() * 800;
-  // sprite.y = Math.random() * 600;
-}
+let tick = 0;
 
 app.ticker.add(() => {
-  // let`s rotate the aliens a little bit
-  for (let i = 0; i < 100; i++) {
-    const alien = aliens[i];
-    alien.rotation += 0.1;
+  // iterate through the sprites and update their position
+  for (let i = 0; i < bananas.length; i++) {
+    const banana = bananas[i];
+    banana.scale.y = 0.95 + Math.sin(tick + banana.offset) * 0.05;
+    banana.direction += banana.turningSpeed * 0.01;
+    banana.x += Math.sin(banana.direction) * (banana.speed * banana.scale.y);
+    banana.y += Math.cos(banana.direction) * (banana.speed * banana.scale.y);
+
+    // wrap the bananas
+    if (banana.x < bananaBounds.x) {
+      banana.x += bananaBounds.width;
+    } else if (banana.x > bananaBounds.x + bananaBounds.width) {
+      banana.x -= bananaBounds.width;
+    }
+
+    if (banana.y < bananaBounds.y) {
+      banana.y += bananaBounds.width;
+    } else if (banana.y > bananaBounds.y + bananaBounds.height) {
+      banana.y -= bananaBounds.height;
+    }
   }
 
-  count += 0.01;
-
-  alienContainer.scale.x = Math.sin(count);
-  alienContainer.scale.y = Math.sin(count);
-  alienContainer.rotation += 0.01;
+  // increment the ticker
+  tick += 0.1;
 });
